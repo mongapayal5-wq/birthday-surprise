@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday Ani ❤️</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0a080d;
+            --card-bg: rgba(22, 18, 28, 0.75);
+            --card-border: rgba(212, 175, 55, 0.3);
+            --gold-primary: #f3e5ab;
+            --gold-accent: #d4af37;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --pink-accent: #e899ac;
+            --rose-accent: #c95b74;
+            --text-light: #f7f3f5;
+            --text-muted: #c3b8be;
+            --font-title: 'Playfair Display', serif;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            font-family: var(--font-sans);
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            touch-action: manipulation;
+        }
+
+        /* Ambient Sparkling Background Canvas */
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Screen Wrapper */
+        .app-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 500px;
+            min-height: 480px;
+            max-height: 90vh;
+            padding: 30px 24px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 25px rgba(212, 175, 55, 0.15);
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.96) translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .screen.active {
+            display: flex;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        /* Typography */
+        h1, h2, .title-font {
+            font-family: var(--font-title);
+            color: var(--gold-primary);
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        h1 { font-size: 2rem; line-height: 1.2; }
+        h2 { font-size: 1.6rem; line-height: 1.3; }
+
+        p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        /* Custom Emoji Support Class */
+        .emoji {
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", sans-serif;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
+            color: #0d0a05;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            outline: none;
+        }
+
+        .btn-primary:hover, .btn-primary:active {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+        }
+
+        /* 1. PASSWORD SCREEN */
+        .pass-inputs {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 25px 0;
+        }
+
+        .pass-box {
+            width: 50px;
+            height: 60px;
+            background: rgba(10, 8, 13, 0.8);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold-primary);
+            text-align: center;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .pass-box:focus {
+            border-color: var(--gold-accent);
+            box-shadow: 0 0 12px var(--gold-glow);
+        }
+
+        .pass-error {
+            color: var(--rose-accent);
+            font-size: 0.9rem;
+            min-height: 22px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            transition: opacity 0.3s ease;
+        }
+
+        /* 2. YES / NO SCREEN */
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* Image Display Cards */
+        .photo-card {
+            width: 100%;
+            max-width: 320px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid var(--card-border);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            margin: 15px 0;
+            position: relative;
+            background: #1a1520;
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: auto;
+            max-height: 320px;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* Final girl photo: show the COMPLETE original photo without cropping/zooming */
+        .final-photo-card {
+            max-width: 360px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+
+        .final-photo-card img {
+            width: auto;
+            max-width: 100%;
+            height: auto;
+            max-height: 280px;
+            object-fit: contain;
+            margin: 0 auto;
+        }
+
+        /* 4. REALISTIC CAKE & CANDLES STYLING */
+        .cake-stage {
+            position: relative;
+            width: 260px;
+            height: 200px;
+            margin: 20px auto 10px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        /* Candle Placement - Top of Cake */
+        .candles-row {
+            position: absolute;
+            top: 20px;
+            z-index: 8;
+            display: flex;
+            gap: 22px;
+            justify-content: center;
+            align-items: flex-end;
+            width: 100%;
+        }
+
+        .candle {
+            position: relative;
+            width: 12px;
+            height: 48px;
+            background: linear-gradient(to right, #ffd1dc, #fff0f5, #f4acb7);
+            border-radius: 3px 3px 1px 1px;
+            box-shadow: inset -2px 0 3px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.3);
+            cursor: pointer;
+        }
+
+        .candle-wick {
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 6px;
+            background: #444;
+        }
+
+        .flame {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 20px;
+            background: radial-gradient(ellipse at bottom, #ffffff 0%, #ffde59 30%, #ff914d 60%, rgba(255,77,77,0) 100%);
+            border-radius: 50% 50% 35% 35%;
+            box-shadow: 0 0 12px #ffde59, 0 0 20px #ff914d;
+            animation: flicker 0.2s infinite alternate ease-in-out;
+            transform-origin: center bottom;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1) rotate(-2deg); }
+            100% { transform: translateX(-50%) scale(1.1) rotate(2deg); }
+        }
+
+        .candle.off .flame {
+            display: none;
+        }
+
+        .candle.off .smoke {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            width: 4px;
+            height: 12px;
+            background: rgba(200,200,200,0.6);
+            border-radius: 10px;
+            animation: smokeRise 1s forwards;
+        }
+
+        @keyframes smokeRise {
+            0% { opacity: 0.8; transform: translateX(-50%) translateY(0) scaleX(1); }
+            100% { opacity: 0; transform: translateX(-80%) translateY(-20px) scaleX(3); }
+        }
+
+        /* Cake Layers */
+        .cake-body {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cake-layer-top {
+            width: 180px;
+            height: 55px;
+            background: linear-gradient(135deg, #f7d6e0, #f2b5d4);
+            border-radius: 16px 16px 6px 6px;
+            position: relative;
+            box-shadow: inset 0 6px 8px rgba(255,255,255,0.8), inset 0 -6px 8px rgba(0,0,0,0.15);
+            z-index: 5;
+        }
+
+        .frosting-drip {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: #fff5f8;
+            border-radius: 16px 16px 10px 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .cake-layer-bottom {
+            width: 220px;
+            height: 65px;
+            background: linear-gradient(135deg, #e899ac, #d87093);
+            border-radius: 10px 10px 8px 8px;
+            position: relative;
+            margin-top: -5px;
+            box-shadow: inset 0 6px 8px rgba(255,255,255,0.5), inset 0 -8px 10px rgba(0,0,0,0.2);
+            z-index: 4;
+        }
+
+        .cake-plate {
+            width: 250px;
+            height: 14px;
+            background: linear-gradient(to right, #d4af37, #fff2a8, #aa7c11);
+            border-radius: 50%;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.5);
+            z-index: 3;
+            margin-top: -2px;
+        }
+
+        /* 5. BALLOONS STYLING */
+        .balloons-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            width: 100%;
+            min-height: 180px;
+            align-items: flex-end;
+        }
+
+        .balloon-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .balloon-wrapper:hover {
+            transform: translateY(-8px);
+        }
+
+        .balloon {
+            width: 60px;
+            height: 75px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            position: relative;
+            box-shadow: inset -8px -8px 15px rgba(0, 0, 0, 0.3), inset 8px 8px 15px rgba(255, 255, 255, 0.4);
+            animation: floatBalloon 3s infinite ease-in-out alternate;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 8px solid inherit;
+        }
+
+        .balloon-1 { background: radial-gradient(circle at 30% 30%, #ffb6c1, #c95b74); }
+        .balloon-2 { background: radial-gradient(circle at 30% 30%, #f3e5ab, #d4af37); }
+        .balloon-3 { background: radial-gradient(circle at 30% 30%, #f7d6e0, #e899ac); }
+        .balloon-4 { background: radial-gradient(circle at 30% 30%, #e6b89c, #bc6c25); }
+
+        .balloon-string {
+            width: 1px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .balloon-pop {
+            animation: popAnim 0.3s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popAnim {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.5; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        @keyframes floatBalloon {
+            0% { transform: translateY(0) rotate(-2deg); }
+            100% { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        .balloon-message-box {
+            min-height: 48px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed var(--gold-border, rgba(212,175,55,0.4));
+            border-radius: 12px;
+            padding: 10px 15px;
+            margin-top: 10px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            color: var(--gold-primary);
+        }
+
+        /* 6. GIFTS STYLING */
+        .gifts-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0;
+            width: 100%;
+        }
+
+        .gift-box {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #e899ac, #c95b74);
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gift-box:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .gift-lid {
+            position: absolute;
+            top: -10px;
+            left: -4px;
+            width: 88px;
+            height: 20px;
+            background: #d87093;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .gift-ribbon-v {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 100%;
+            background: linear-gradient(to right, #f3e5ab, #d4af37);
+        }
+
+        .gift-ribbon-h {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 100%;
+            height: 16px;
+            background: linear-gradient(to bottom, #f3e5ab, #d4af37);
+        }
+
+        .gift-bow {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            z-index: 2;
+        }
+
+        /* 7. KISSES CANVAS OVERLAY */
+        #kissCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* 9. FIREWORKS OVERLAY SCREEN */
+        .fireworks-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 50;
+            background: #000000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .fireworks-overlay.active {
+            display: flex;
+        }
+
+        /* Pinned Heading for Fireworks */
+        .fireworks-title {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 60;
+            width: 90%;
+            max-width: 600px;
+            font-family: var(--font-title);
+            font-size: 2.2rem;
+            color: var(--gold-primary);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 0 40px rgba(212, 175, 55, 0.4);
+            line-height: 1.4;
+            pointer-events: none;
+            animation: glowPulse 2s infinite alternate ease-in-out;
+        }
+
+        @keyframes glowPulse {
+            0% { text-shadow: 0 0 15px rgba(212, 175, 55, 0.6); }
+            100% { text-shadow: 0 0 30px rgba(255, 235, 170, 0.9), 0 0 50px rgba(212, 175, 55, 0.6); }
+        }
+
+        /* 10. REVIEW SECTION */
+        .rating-stars {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        .star {
+            color: rgba(255, 255, 255, 0.2);
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .star.selected {
+            color: var(--gold-accent);
+            transform: scale(1.15);
+        }
+
+        textarea.reply-box {
+            width: 100%;
+            height: 90px;
+            background: rgba(10, 8, 13, 0.6);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 12px;
+            color: var(--text-light);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            outline: none;
+            resize: none;
+            margin-bottom: 10px;
+        }
+
+        textarea.reply-box:focus {
+            border-color: var(--gold-accent);
+        }
+
+        /* Utilities */
+        .hidden { display: none !important; }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 1.7rem; }
+            h2 { font-size: 1.4rem; }
+            .screen { padding: 24px 18px; }
+            .fireworks-title { font-size: 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Golden Particle Background -->
+    <canvas id="bgCanvas"></canvas>
+    <!-- Dynamic Kiss Rain Overlay -->
+    <canvas id="kissCanvas"></canvas>
+
+    <div class="app-container">
+
+        <!-- 1. PASSWORD SCREEN -->
+        <div class="screen active" id="screen-1">
+            <h1 class="title-font">A Surprise Awaits <span class="emoji">✨</span></h1>
+            <p>Enter the secret 4-digit key to unlock your birthday surprise</p>
+            
+            <div class="pass-inputs">
+                <input type="password" maxlength="1" class="pass-box" data-idx="0" inputmode="numeric" autofocus>
+                <input type="password" maxlength="1" class="pass-box" data-idx="1" inputmode="numeric">
+                <input type="password" maxlength="1" class="pass-box" data-idx="2" inputmode="numeric">
+                <input type="password" maxlength="1" class="pass-box" data-idx="3" inputmode="numeric">
+            </div>
+            
+            <div class="pass-error" id="passError"></div>
+        </div>
+
+        <!-- 2. YES / NO SCREEN -->
+        <div class="screen" id="screen-2">
+            <h2>Are you ready for your surprise? <span class="emoji">👀</span></h2>
+            <p id="yesNoSubtext">Take a deep breath...</p>
+            
+            <div class="btn-group" id="yesNoBtnGroup">
+                <button class="btn-primary" id="btnYes">YES <span class="emoji">❤️</span></button>
+                <button class="btn-secondary" id="btnNo">NO</button>
+            </div>
+        </div>
+
+        <!-- 3. BIRTHDAY REVEAL -->
+        <div class="screen" id="screen-3">
+            <h1>Happy Birthday Ani <span class="emoji">❤️</span></h1>
+            
+            <div class="photo-card">
+                <img src="images/birthday.jpeg" alt="Birthday Celebration" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'300\' viewBox=\'0 0 300 300\'><rect width=\'100%\' height=\'100%\' fill=\'%231a1520\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23d4af37\' font-size=\'20\'>Happy Birthday Ani ❤️</text></svg>'">
+            </div>
+
+            <button class="btn-primary btn-next" data-next="4">Continue <span class="emoji">✨</span></button>
+        </div>
+
+        <!-- 4. CAKE / MAKE A WISH -->
+        <div class="screen" id="screen-4">
+            <h2>Make a Wish <span class="emoji">🕯️</span></h2>
+            <p>Tap each candle to blow out the flames!</p>
+
+            <div class="cake-stage">
+                <!-- 4 Candles sitting cleanly ON TOP of the upper cake layer -->
+                <div class="candles-row">
+                    <div class="candle" data-candle="0"><div class="flame"></div><div class="candle-wick"></div></div>
+                    <div class="candle" data-candle="1"><div class="flame"></div><div class="candle-wick"></div></div>
+                    <div class="candle" data-candle="2"><div class="flame"></div><div class="candle-wick"></div></div>
+                    <div class="candle" data-candle="3"><div class="flame"></div><div class="candle-wick"></div></div>
+                </div>
+
+                <div class="cake-body">
+                    <div class="cake-layer-top">
+                        <div class="frosting-drip"></div>
+                    </div>
+                    <div class="cake-layer-bottom"></div>
+                    <div class="cake-plate"></div>
+                </div>
+            </div>
+
+            <button class="btn-primary hidden" id="btnCakeContinue" onclick="goToScreen(5)">Continue <span class="emoji">💖</span></button>
+        </div>
+
+        <!-- 5. BALLOONS -->
+        <div class="screen" id="screen-5">
+            <h2>Pop the Balloons <span class="emoji">🎈</span></h2>
+            <p>Tap each balloon to reveal a secret note</p>
+
+            <div class="balloons-container">
+                <div class="balloon-wrapper" data-idx="0">
+                    <div class="balloon balloon-1"></div>
+                    <div class="balloon-string"></div>
+                </div>
+                <div class="balloon-wrapper" data-idx="1">
+                    <div class="balloon balloon-2"></div>
+                    <div class="balloon-string"></div>
+                </div>
+                <div class="balloon-wrapper" data-idx="2">
+                    <div class="balloon balloon-3"></div>
+                    <div class="balloon-string"></div>
+                </div>
+                <div class="balloon-wrapper" data-idx="3">
+                    <div class="balloon balloon-4"></div>
+                    <div class="balloon-string"></div>
+                </div>
+            </div>
+
+            <div class="balloon-message-box" id="balloonMsg">Tap a balloon above!</div>
+
+            <button class="btn-primary hidden" id="btnBalloonContinue" onclick="goToScreen(6)">Continue <span class="emoji">🎁</span></button>
+        </div>
+
+        <!-- 6. GIFTS -->
+        <div class="screen" id="screen-6">
+            <h2>Gift for you <span class="emoji">🎁</span></h2>
+            <p>Click any gift to open</p>
+
+            <div class="gifts-grid">
+                <div class="gift-box" onclick="goToScreen(7)">
+                    <div class="gift-bow"><span class="emoji">🎀</span></div>
+                    <div class="gift-lid"></div>
+                    <div class="gift-ribbon-v"></div>
+                    <div class="gift-ribbon-h"></div>
+                </div>
+                <div class="gift-box" onclick="goToScreen(7)">
+                    <div class="gift-bow"><span class="emoji">🎀</span></div>
+                    <div class="gift-lid"></div>
+                    <div class="gift-ribbon-v"></div>
+                    <div class="gift-ribbon-h"></div>
+                </div>
+                <div class="gift-box" onclick="goToScreen(7)">
+                    <div class="gift-bow"><span class="emoji">🎀</span></div>
+                    <div class="gift-lid"></div>
+                    <div class="gift-ribbon-v"></div>
+                    <div class="gift-ribbon-h"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. KISSES -->
+        <div class="screen" id="screen-7">
+            <h2>Ready for your kisses? <span class="emoji">👀❤️</span></h2>
+            <p>Thousands of kisses, because one is obviously not enough. <span class="emoji">💋❤️</span></p>
+
+            <button class="btn-primary" id="btnKiss">I'm ready <span class="emoji">💋</span></button>
+        </div>
+
+        <!-- 8. LONG DISTANCE -->
+        <div class="screen" id="screen-8">
+            <h2>Missing you <span class="emoji">🥺</span></h2>
+
+            <div class="photo-card">
+                <img src="images/longdistance.jpeg" alt="Long Distance Love" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'300\' viewBox=\'0 0 300 300\'><rect width=\'100%\' height=\'100%\' fill=\'%231a1520\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23d4af37\' font-size=\'18\'>Missing You 🥺</text></svg>'">
+            </div>
+
+            <button class="btn-primary" onclick="triggerFireworksAndCelebrate()">Continue <span class="emoji">🎆</span></button>
+        </div>
+
+        <!-- 10. FINAL PHOTO + REVIEW -->
+        <div class="screen" id="screen-10">
+            <h2>Now it's your turn... <span class="emoji">🥹❤️</span></h2>
+
+            <div class="photo-card final-photo-card">
+                <img id="finalGirlPhoto" src="images/girl.jpeg" alt="Final Memory" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'300\' viewBox=\'0 0 300 300\'><rect width=\'100%\' height=\'100%\' fill=\'%231a1520\'/><text x=\'50%\' y=\'50%\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'%23d4af37\' font-size=\'18\'>Forever & Always ❤️</text></svg>'">
+            </div>
+
+            <p style="margin-bottom: 8px;">How much did you like your birthday surprise? <span class="emoji">❤️</span></p>
+
+            <div class="rating-stars" id="starRating">
+                <span class="star" data-star="1">★</span>
+                <span class="star" data-star="2">★</span>
+                <span class="star" data-star="3">★</span>
+                <span class="star" data-star="4">★</span>
+                <span class="star" data-star="5">★</span>
+            </div>
+
+            <textarea class="reply-box" id="replyMessage" placeholder="Okay, now it's your turn… What did you think? ❤️"></textarea>
+
+            <button class="btn-primary" id="btnSubmitReview">Send it to me <span class="emoji">💌</span></button>
+            <div id="reviewStatus" class="hidden" style="margin-top:14px; color:var(--gold-primary); line-height:1.5;">Okayyy, I got your message 🥹❤️</div>
+        </div>
+
+    </div>
+
+    <iframe name="googleFormTarget" id="googleFormTarget" style="display:none;"></iframe>
+
+    <!-- 9. GRAND FIREWORKS OVERLAY -->
+    <div class="fireworks-overlay" id="fireworksOverlay">
+        <canvas id="fwCanvas" style="position:absolute; top:0; left:0; width:100%; height:100%;"></canvas>
+        <div class="fireworks-title">Once again, Happy Birthday Ani baby <span class="emoji">❤️</span></div>
+    </div>
+
+    <script>
+        /* Screen Navigation Handler */
+        function goToScreen(screenNum) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(`screen-${screenNum}`);
+            if (target) {
+                target.classList.add('active');
+            }
+        }
+
+        /* Ambient Sparkling Background Animation */
+        const bgCanvas = document.getElementById('bgCanvas');
+        const bgCtx = bgCanvas.getContext('2d');
+        let bgParticles = [];
+
+        function resizeBg() {
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeBg);
+        resizeBg();
+
+        class BgParticle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * bgCanvas.width;
+                this.y = Math.random() * bgCanvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.alpha = Math.random() * 0.5 + 0.1;
+                this.speedY = Math.random() * 0.3 + 0.1;
+                this.flickerSpeed = Math.random() * 0.02 + 0.005;
+            }
+            update() {
+                this.y -= this.speedY;
+                this.alpha += Math.sin(Date.now() * this.flickerSpeed) * 0.01;
+                if (this.y < 0) this.y = bgCanvas.height;
+            }
+            draw() {
+                bgCtx.fillStyle = `rgba(212, 175, 55, ${Math.max(0, Math.min(1, this.alpha))})`;
+                bgCtx.beginPath();
+                bgCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                bgCtx.fill();
+            }
+        }
+
+        for (let i = 0; i < 70; i++) bgParticles.push(new BgParticle());
+
+        function animateBg() {
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+            bgParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        /* 1. PASSWORD SCREEN LOGIC */
+        const passBoxes = document.querySelectorAll('.pass-box');
+        const passError = document.getElementById('passError');
+
+        passBoxes.forEach((box, idx) => {
+            box.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && idx < passBoxes.length - 1) {
+                    passBoxes[idx + 1].focus();
+                }
+                checkPassword();
+            });
+
+            box.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !box.value && idx > 0) {
+                    passBoxes[idx - 1].focus();
+                }
+            });
+        });
+
+        function checkPassword() {
+            let entered = '';
+            passBoxes.forEach(box => entered += box.value);
+            if (entered.length === 4) {
+                if (entered === '3008') {
+                    passError.textContent = '';
+                    goToScreen(2);
+                } else {
+                    passError.textContent = 'Incorrect pin, try again!';
+                    passBoxes.forEach(b => b.value = '');
+                    passBoxes[0].focus();
+                }
+            }
+        }
+
+        /* 2. YES / NO SCREEN LOGIC */
+        const btnYes = document.getElementById('btnYes');
+        const btnNo = document.getElementById('btnNo');
+        const yesNoSubtext = document.getElementById('yesNoSubtext');
+        const yesNoBtnGroup = document.getElementById('yesNoBtnGroup');
+
+        btnNo.addEventListener('click', () => {
+            yesNoSubtext.textContent = 'How dare you click NO 😭';
+            yesNoBtnGroup.innerHTML = `
+                <button class="btn-primary" id="btnTryAgain">Try Again</button>
+            `;
+            document.getElementById('btnTryAgain').addEventListener('click', resetYesNoScreen);
+        });
+
+        function resetYesNoScreen() {
+            yesNoSubtext.textContent = 'Take a deep breath...';
+            yesNoBtnGroup.innerHTML = `
+                <button class="btn-primary" id="btnYes">YES <span class="emoji">❤️</span></button>
+                <button class="btn-secondary" id="btnNo">NO</button>
+            `;
+            document.getElementById('btnYes').addEventListener('click', () => goToScreen(3));
+            document.getElementById('btnNo').addEventListener('click', () => btnNo.click());
+        }
+
+        btnYes.addEventListener('click', () => goToScreen(3));
+
+        /* SCREEN NAVIGATION BUTTONS */
+        document.querySelectorAll('.btn-next').forEach(btn => {
+            btn.addEventListener('click', () => {
+                goToScreen(btn.getAttribute('data-next'));
+            });
+        });
+
+        /* 4. CAKE & CANDLE LOGIC */
+        let candlesBlown = 0;
+        document.querySelectorAll('.candle').forEach(candle => {
+            candle.addEventListener('click', () => {
+                if (!candle.classList.contains('off')) {
+                    candle.classList.add('off');
+                    const smoke = document.createElement('div');
+                    smoke.className = 'smoke';
+                    candle.appendChild(smoke);
+                    candlesBlown++;
+
+                    if (candlesBlown === 4) {
+                        setTimeout(() => {
+                            document.getElementById('btnCakeContinue').classList.remove('hidden');
+                        }, 500);
+                    }
+                }
+            });
+        });
+
+        /* 5. BALLOONS LOGIC */
+        const balloonMsgs = [
+            "Missing you a little extra today ❤️",
+            "Love you more than words can say ❤️",
+            "Sending you a little kiss 💋",
+            "If I were there, you'd get a warm hug 🫂"
+        ];
+        let balloonsPopped = 0;
+
+        document.querySelectorAll('.balloon-wrapper').forEach(wrapper => {
+            wrapper.addEventListener('click', () => {
+                const idx = wrapper.getAttribute('data-idx');
+                if (!wrapper.classList.contains('popped')) {
+                    wrapper.classList.add('popped');
+                    wrapper.querySelector('.balloon').classList.add('balloon-pop');
+                    setTimeout(() => {
+                        wrapper.style.visibility = 'hidden';
+                    }, 280);
+
+                    document.getElementById('balloonMsg').textContent = balloonMsgs[idx];
+                    balloonsPopped++;
+
+                    if (balloonsPopped === 4) {
+                        setTimeout(() => {
+                            document.getElementById('btnBalloonContinue').classList.remove('hidden');
+                        }, 600);
+                    }
+                }
+            });
+        });
+
+        /* 7. KISS RAIN ANIMATION */
+        const kissCanvas = document.getElementById('kissCanvas');
+        const kissCtx = kissCanvas.getContext('2d');
+        let kissParticles = [];
+
+        function resizeKissCanvas() {
+            kissCanvas.width = window.innerWidth;
+            kissCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeKissCanvas);
+        resizeKissCanvas();
+
+        class KissParticle {
+            constructor() {
+                this.x = Math.random() * kissCanvas.width;
+                this.y = -20;
+                this.size = Math.random() * 18 + 14;
+                this.speedY = Math.random() * 3 + 5;
+                this.speedX = Math.sin(Math.random() * Math.PI) * 2;
+                this.symbol = Math.random() > 0.5 ? '💋' : '❤️';
+                this.rotation = Math.random() * 360;
+                this.rotSpeed = (Math.random() - 0.5) * 2;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotSpeed;
+            }
+            draw() {
+                kissCtx.save();
+                kissCtx.translate(this.x, this.y);
+                kissCtx.rotate((this.rotation * Math.PI) / 180);
+                kissCtx.font = `${this.size}px sans-serif`;
+                kissCtx.fillText(this.symbol, 0, 0);
+                kissCtx.restore();
+            }
+        }
+
+        document.getElementById('btnKiss').addEventListener('click', () => {
+            kissParticles = [];
+            for (let i = 0; i < 60; i++) {
+                setTimeout(() => {
+                    kissParticles.push(new KissParticle());
+                }, i * 20);
+            }
+
+            let duration = 0;
+            const kissInterval = setInterval(() => {
+                kissCtx.clearRect(0, 0, kissCanvas.width, kissCanvas.height);
+                kissParticles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                duration += 16;
+                if (duration > 3000) {
+                    clearInterval(kissInterval);
+                    kissCtx.clearRect(0, 0, kissCanvas.width, kissCanvas.height);
+                    goToScreen(8);
+                }
+            }, 16);
+        });
+
+        /* 9. FIREWORKS CELEBRATION LOGIC */
+        const fwCanvas = document.getElementById('fwCanvas');
+        const fwCtx = fwCanvas.getContext('2d');
+        let fwParticles = [];
+        let fwAnimId = null;
+
+        function resizeFwCanvas() {
+            fwCanvas.width = window.innerWidth;
+            fwCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeFwCanvas);
+
+        class FireworkParticle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 5 + 1;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.alpha = 1;
+                this.decay = Math.random() * 0.02 + 0.01;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.05; // gravity
+                this.alpha -= this.decay;
+            }
+            draw() {
+                fwCtx.save();
+                fwCtx.globalAlpha = Math.max(0, this.alpha);
+                fwCtx.fillStyle = this.color;
+                fwCtx.beginPath();
+                fwCtx.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+                fwCtx.fill();
+                fwCtx.restore();
+            }
+        }
+
+        function createBurst(x, y) {
+            const colors = ['#f3e5ab', '#d4af37', '#ffffff', '#e899ac', '#ff2e63'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            for (let i = 0; i < 40; i++) {
+                fwParticles.push(new FireworkParticle(x, y, color));
+            }
+        }
+
+        function triggerFireworksAndCelebrate() {
+            const overlay = document.getElementById('fireworksOverlay');
+            overlay.classList.add('active');
+            resizeFwCanvas();
+
+            let timer = 0;
+            const burstInterval = setInterval(() => {
+                createBurst(Math.random() * fwCanvas.width, Math.random() * fwCanvas.height * 0.7);
+            }, 300);
+
+            function loopFw() {
+                fwCtx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+                fwCtx.fillRect(0, 0, fwCanvas.width, fwCanvas.height);
+
+                fwParticles.forEach((p, idx) => {
+                    p.update();
+                    p.draw();
+                    if (p.alpha <= 0) fwParticles.splice(idx, 1);
+                });
+
+                fwAnimId = requestAnimationFrame(loopFw);
+            }
+            loopFw();
+
+            // Automatically proceed to final photo + review after 6 seconds
+            setTimeout(() => {
+                clearInterval(burstInterval);
+                cancelAnimationFrame(fwAnimId);
+                overlay.classList.remove('active');
+                goToScreen(10);
+            }, 6000);
+        }
+
+        /* 10. RATING + GOOGLE FORM REVIEW LOGIC */
+        const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfn6t2ru9LYfIaKJTaYuSes7nSqiQYYraH90NZxENRrmVWJDQ/formResponse";
+        const STAR_ENTRY_ID = "entry.1471194367";
+        const MESSAGE_ENTRY_ID = "entry.442645689";
+
+        let selectedRating = 0;
+        const stars = document.querySelectorAll('.star');
+        const reviewButton = document.getElementById('btnSubmitReview');
+        const reviewMessage = document.getElementById('replyMessage');
+        const reviewStatus = document.getElementById('reviewStatus');
+
+        function selectRating(value) {
+            selectedRating = Number(value);
+            stars.forEach(s => s.classList.toggle('selected', Number(s.dataset.star) <= selectedRating));
+        }
+
+        stars.forEach(star => star.addEventListener('click', () => selectRating(star.dataset.star)));
+
+        reviewButton.addEventListener('click', () => {
+            const reply = reviewMessage.value.trim();
+            if (!selectedRating) { reviewStatus.textContent = 'Pehla stars select karo 🥹❤️'; reviewStatus.classList.remove('hidden'); return; }
+            if (!reply) { reviewStatus.textContent = 'Message vi likh do na 🥹❤️'; reviewStatus.classList.remove('hidden'); return; }
+            if (GOOGLE_FORM_ACTION_URL.includes('PASTE_YOUR_') || STAR_ENTRY_ID.includes('STAR_FIELD_ID') || MESSAGE_ENTRY_ID.includes('MESSAGE_FIELD_ID')) {
+                reviewStatus.textContent = 'Review ready aa ❤️ Google Form details code ch add karne ne.';
+                reviewStatus.classList.remove('hidden'); return;
+            }
+            const form = document.createElement('form');
+            form.method = 'POST'; form.action = GOOGLE_FORM_ACTION_URL; form.target = 'googleFormTarget'; form.style.display = 'none';
+            const a = document.createElement('input'); a.type = 'hidden'; a.name = STAR_ENTRY_ID; a.value = selectedRating;
+            const b = document.createElement('input'); b.type = 'hidden'; b.name = MESSAGE_ENTRY_ID; b.value = reply;
+            form.append(a,b); document.body.appendChild(form); form.submit();
+            reviewButton.disabled = true; reviewButton.textContent = 'Sending... 💌';
+            setTimeout(() => { reviewStatus.textContent = 'Okayyy, I got your message 🥹❤️'; reviewStatus.classList.remove('hidden'); reviewButton.textContent = 'Sent with love ❤️'; reviewMessage.disabled = true; form.remove(); }, 1200);
+        });
+    </script>
+</body>
+</html>
